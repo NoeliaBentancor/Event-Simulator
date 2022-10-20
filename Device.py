@@ -6,7 +6,6 @@ import asyncio
 
 class Device:
     load_dotenv()
-    dsn = "..."
     devicesTypes = os.getenv("DEVICE_TYPES")
     if devicesTypes :
         devicesTypes= devicesTypes.split(",")
