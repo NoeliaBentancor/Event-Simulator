@@ -13,9 +13,7 @@ async def main():
     contLimit=os.getenv("LIMIT_POSITION")
     fileType=os.getenv("FILE_EXTENSION")
     events=[]
-    cont=1
-    while cont>=0:
-        cont=cont-1
+    while  True:
         randomEventPosition= random.randrange(150)
         device=  Device()
         event =  Event(device=device)
