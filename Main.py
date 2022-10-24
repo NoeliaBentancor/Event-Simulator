@@ -1,3 +1,4 @@
+import datetime
 import random
 from file import File
 from s3uploader import S3UPloader
@@ -5,14 +6,17 @@ from device import Device
 import os
 from event import Event
 import asyncio
+from dotenv import load_dotenv
 
 
 async def main():
+    load_dotenv()
     position_limit = os.getenv("LIMIT_POSITION")
     file_type = os.getenv("FILE_EXTENSION")
+    print(file_type)
     events = []
     while True:
-        random_event_position = random.randrange(int(os.getenv("RANDOM_EVENT_POSITION")))
+        random_event_position = random.randrange(int(os.getenv("RANDOM_EVENT_POSITION")))  # type: ignore
         device = Device()
         event = Event(device=device)
         if len(events) <= random_event_position:
@@ -27,13 +31,13 @@ async def main():
                 ].currentPosition + random.randrange(15)
                 events[random_event_position].currentPosition = current_position
                 events[random_event_position].generateRandomEvent()
-                events[random_event_position].setTimeStamp()
+                events[random_event_position].timestamp = datetime.datetime.now()
                 event = events[random_event_position]
         print(str(event))
         file_name = f"({str(event.device.device_id)}  {str(event.timestamp.second)} {str(file_type)}"  
         file = File(file_name)
         await file.write(str(event.parse_to_json()))
-        await S3UPloader.upload_file(file_name)    # type: ignore
+        await S3UPloader.upload_file(file_name,file_name)    # type: ignore
         await file.remove()
 
 

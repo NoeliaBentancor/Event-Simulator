@@ -7,9 +7,9 @@ class Device:
         devicesTypes = devices_types.split(",")
 
     def __init__(self):
-        self.set_random_device()
+        self.generate_random_device()
 
-    def set_random_device(self):
+    def generate_random_device(self):
         """ Set random device."""
 
         device_id = randrange(3)

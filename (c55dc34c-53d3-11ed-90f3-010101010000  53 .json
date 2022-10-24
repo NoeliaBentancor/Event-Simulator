@@ -1,0 +1,1 @@
+{'timestamp': datetime.datetime(2022, 10, 24, 16, 40, 53, 282257), 'eventType': 'PLAY', 'contentId': UUID('c55dc34d-53d3-11ed-ad60-010101010000'), 'device': {'deviceType': 'D', 'deviceId': UUID('c55dc34c-53d3-11ed-90f3-010101010000')}, 'currentPosition': 0}

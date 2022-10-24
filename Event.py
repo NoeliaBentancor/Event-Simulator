@@ -16,25 +16,22 @@ class Event:
         self.device = device
         self.current_position = random.randrange(15)
         self.set_random_content_id()
-        self.set_random_event_type()
-        self.set__time_stamp()
+        self.event_type= self.random_event_type()
+        self.timestamp=datetime.datetime.now()
 
-    def set__time_stamp(self):
-        self.timestamp = datetime.datetime.now()
-
-    def set_random_event_type(self):
-        """ Set random event type."""
+    
+    def random_event_type(self):
         if self.event_types:
-            self.event_type = self.event_types[random.randrange(0, 3)]
+            return self.event_types[random.randrange(0, 3)]
 
     def get_time_stamp(self):
         """ Get timestamp."""
         return self.timestamp
 
     def generate_random_event(self):
-        """Generates a random event depending ."""
+        """Generates a random event depending of current event type ."""
         if self.event_type == self.play_event:
-            self.set_random_event_type()
+            self.event_type= self.random_event_type()
         elif self.event_type == self.playing_event:
             if self.event_types:
                 self.event_type = self.event_types[random.randrange(1, 3)]
@@ -57,6 +54,7 @@ class Event:
         }
 
     def __str__(self):
+        """ Format event information to string format."""
         return (
             f"Event: { str(self.timestamp)} { str(self.event_types)}{ str(self.content_id)}{ str(self.device.device_type)}{ str(self.device.device_id)}{ str(self.current_position)}"
         )
