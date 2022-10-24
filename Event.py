@@ -2,53 +2,61 @@ import datetime
 import random
 import uuid
 import os
-from dotenv import load_dotenv
 
 class Event:
- 
-  load_dotenv()
-  eventTypes = os.getenv("EVENT_TYPE")
-  if eventTypes :
-    eventTypes= eventTypes.split(",")
-  playEvent=os.getenv("PLAY_EVENT")
-  playingEvent=os.getenv("PLAYING_EVENT")
-  stopEvent=os.getenv("STOP_EVENT")
 
-  def __init__(self, device):
-    self.device=device
-    self.currentPosition= random.randrange(15)
-    
-  def setTimeStamp(self):
-    self.timestamp= datetime.datetime.now()
-        
-  def setRandomEventType(self):
-    if self.eventTypes:
-      self.eventType= self.eventTypes[random.randrange(0,3)]
-  
-  def getTimeStamp(self):
-    return self.timestamp
+    event_types = os.getenv("EVENT_TYPE")
+    if event_types:
+        event_types = event_types.split(",")
+    play_event = os.getenv("PLAY_EVENT")
+    playing_event = os.getenv("PLAYING_EVENT")
+    stop_event = os.getenv("STOP_EVENT")
 
-  def generateRandomEvent(self):
-    if self.eventType == self.playEvent:
-      self.setRandomEventType()
-    elif self.eventType== self.playingEvent:
-      if self.eventTypes:
-        self.eventType= self.eventTypes[random.randrange(1,3)]
-    elif self.eventType== self.stopEvent:
-      if self.eventTypes:
-        self.eventType= self.eventTypes[random.choice([0,2])]
+    def __init__(self, device):
+        self.device = device
+        self.current_position = random.randrange(15)
+        self.set_random_content_id()
+        self.set_random_event_type()
+        self.set__time_stamp()
 
-  def setRandomContentId(self):
-    self.contentId=uuid.uuid1()
-  
-  def parseToJson(self):
-    return {
-      "timestamp": self.timestamp,
-      "eventType": self.eventType,
-      "contentId": self.contentId,
-      "device":  self.device.parseToJson(),
-      "currentPosition": self.currentPosition
-    }
+    def set__time_stamp(self):
+        self.timestamp = datetime.datetime.now()
 
-  def __str__(self):
-    return "Event: " + str(self.timestamp) + " " + str(self.eventType) + " " + str(self.contentId) + " " + str(self.device.deviceType)+ " " + str(self.device.deviceId) + " " +str(self.currentPosition)
+    def set_random_event_type(self):
+        """ Set random event type."""
+        if self.event_types:
+            self.event_type = self.event_types[random.randrange(0, 3)]
+
+    def get_time_stamp(self):
+        """ Get timestamp."""
+        return self.timestamp
+
+    def generate_random_event(self):
+        """Generates a random event depending ."""
+        if self.event_type == self.play_event:
+            self.set_random_event_type()
+        elif self.event_type == self.playing_event:
+            if self.event_types:
+                self.event_type = self.event_types[random.randrange(1, 3)]
+        else:
+            if self.event_types:
+                self.event_type = self.event_types[random.choice([0, 2])]
+
+    def set_random_content_id(self):
+        """ Set random content id."""
+        self.content_id = uuid.uuid1()
+
+    def parse_to_json(self):
+        """ Format event information to json format."""
+        return {
+            "timestamp": self.timestamp,
+            "eventType": self.event_type,
+            "contentId": self.content_id,
+            "device": self.device.parse_to_json(),
+            "currentPosition": self.current_position,
+        }
+
+    def __str__(self):
+        return (
+            f"Event: { str(self.timestamp)} { str(self.event_types)}{ str(self.content_id)}{ str(self.device.device_type)}{ str(self.device.device_id)}{ str(self.current_position)}"
+        )

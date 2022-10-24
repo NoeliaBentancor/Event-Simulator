@@ -2,14 +2,15 @@ import os
 
 
 class File:
-    def __init__(self, fileName):
-        self.fileName=fileName
-    
+    def __init__(self, file_name):
+        self.file_name = file_name
+
     async def write(self, content):
-        fp = open(self.fileName, 'x')
-        fp.write(content)
-        fp.close()
-    
+        """Writes current file."""
+        file = open(self.file_name, "x")
+        file.write(content)
+        file.close()
+
     async def remove(self):
-        os.remove(self.fileName)
-        
+        """Removes the file from the current file system."""
+        os.remove(self.file_name)
